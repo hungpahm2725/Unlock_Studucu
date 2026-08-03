@@ -27,7 +27,7 @@ File ZIP sẽ được tải về máy, thường nằm trong thư mục **Downl
 
 Vào thư mục Downloads, tìm file ZIP vừa tải về (có tên kiểu `studocu-tool-main.zip`).
 
-Click chuột phải vào file ZIP, chọn **"Extract All..."** (Giải nén tất cả) hoặc **"Giải nén tại đây"**.
+Click chuột phải vào file ZIP, chọn **"Extract file"** (Giải nén file)
 
 Sau khi giải nén, một thư mục mới sẽ được tạo ra. Mở thư mục đó lên, bạn sẽ thấy bên trong có các file như `manifest.json`, `background.js`, `popup.html`...
 
