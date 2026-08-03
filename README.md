@@ -1,6 +1,6 @@
 # Studocu Tool - Hướng dẫn cài đặt & sử dụng
 
-> Làm theo từng bước là được, ai cũng làm được!
+> Làm theo từng bước hướng dẫn nha
 
 ---
 
