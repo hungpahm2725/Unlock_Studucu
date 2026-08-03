@@ -30,7 +30,7 @@ Nhìn **góc phải trên** → bật công tắc **"Developer mode"** (Chế đ
 ### Bước 3: Load tool
 
 - Bấm nút **"Load unpacked"** (Tải tiện ích đã giải nén)
-- Chọn thư mục `Tool xóa khóa`
+- Chọn thư mục `Mới tải về`
 - Bấm **Select Folder**
 
 > Xong! Extension đã có trong Chrome!
