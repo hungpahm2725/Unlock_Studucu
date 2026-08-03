@@ -25,7 +25,7 @@ File ZIP sẽ được tải về máy, thường nằm trong thư mục **Downl
 
 ### Bước 2: Giải nén
 
-Vào thư mục Downloads, tìm file ZIP vừa tải về (có tên kiểu `studocu-tool-main.zip`).
+Vào thư mục Downloads, tìm file ZIP vừa tải về (có tên kiểu `Unlock_Studucu-main.zip`).
 
 Click chuột phải vào file ZIP, chọn **"Extract file"** (Giải nén file)
 
