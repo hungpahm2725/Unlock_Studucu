@@ -1,5 +1,14 @@
-// Studocu Tool - Popup Logic
+/**
+ * Studocu Tool - Popup Logic
+ * Tác giả: HPahm
+ *
+ * File này điều khiển giao diện popup khi người dùng click vào icon extension.
+ * Có 2 chức năng chính:
+ * - Bypass khóa & mờ: gửi lệnh xóa cookie Studocu rồi reload trang
+ * - Tạo file PDF: clone nội dung tài liệu và mở hộp thoại in
+ */
 
+//  cập nhật trạng thái hiển thị 
 function updateStatus(msg, processing = false) {
   const bar = document.getElementById('status');
   const text = document.getElementById('status-text');
@@ -7,11 +16,11 @@ function updateStatus(msg, processing = false) {
   if (text) text.textContent = msg;
 }
 
-// BYPASS - Xóa cookie + reload 
-
+//  BYPASS - Xóa cookie + reload 
 document.getElementById('clearBtn').addEventListener('click', async () => {
   updateStatus('Đang xóa cookie...', true);
   try {
+    // gửi lệnh xóa cookie đến background.js
     const res = await chrome.runtime.sendMessage({ action: 'clearCookies' });
     if (res.success) {
       updateStatus(`Đã xóa ${res.count} cookies! Đang reload...`, true);
@@ -29,8 +38,7 @@ document.getElementById('clearBtn').addEventListener('click', async () => {
   }
 });
 
-//  PDF - Tạo file PDF 
-
+//  PDF tạo file PDF
 document.getElementById('checkBtn').addEventListener('click', async () => {
   updateStatus('Đang tạo PDF...', true);
   try {
@@ -39,39 +47,36 @@ document.getElementById('checkBtn').addEventListener('click', async () => {
       updateStatus('Không tìm thấy tab');
       return;
     }
-
+    // inject CSS cho giao diện in
     await chrome.scripting.insertCSS({
       target: { tabId: tab.id },
       files: ['viewer_styles.css']
     });
-
+    // inject script tạo PDF vào trang Studocu
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
       func: runCleanViewer
     });
-
     updateStatus('Đã mở hộp thoại in!');
     setTimeout(() => updateStatus('Sẵn sàng'), 3000);
   } catch (e) {
     updateStatus('Lỗi: ' + e.message);
   }
 });
-
-//  PDF Creator (chạy trong trang) 
-
+//  PDF creator chạy trực tiếp trong trang Studocu
+// hàm này được inject vào trang web, không chạy trong popup
 function runCleanViewer() {
+  // tìm tất cả các trang tài liệu 
   const pages = document.querySelectorAll('div[data-page-index]');
 
   if (pages.length === 0) {
     alert('Không tìm thấy trang nào!\n\nHãy cuộn chuột xuống cuối tài liệu để web tải hết nội dung trước!');
     return;
   }
-
   if (!confirm('Tìm thấy ' + pages.length + ' trang.\nBấm OK để tạo PDF...')) return;
-
   const SCALE_FACTOR = 4;
   const HEIGHT_SCALE_DIVISOR = 4;
-
+  // copy style từ element gốc sang element mới
   function copyComputedStyle(source, target, scale, shouldScaleHeight, shouldScaleWidth) {
     const computedStyle = window.getComputedStyle(source);
     const normalProps = [
@@ -90,7 +95,7 @@ function runCleanViewer() {
         styleString += prop + ': ' + value + ' !important; ';
       }
     });
-
+    // xử lý width
     const widthValue = computedStyle.getPropertyValue('width');
     if (widthValue && widthValue !== 'none' && widthValue !== 'auto') {
       if (shouldScaleWidth) {
@@ -105,7 +110,7 @@ function runCleanViewer() {
         styleString += 'width: ' + widthValue + ' !important; ';
       }
     }
-
+    // xử lý height
     const heightValue = computedStyle.getPropertyValue('height');
     if (heightValue && heightValue !== 'none' && heightValue !== 'auto') {
       if (shouldScaleHeight) {
@@ -120,7 +125,7 @@ function runCleanViewer() {
         styleString += 'height: ' + heightValue + ' !important; ';
       }
     }
-
+    // xử lý margin
     ['margin-top', 'margin-right', 'margin-bottom', 'margin-left'].forEach(prop => {
       const value = computedStyle.getPropertyValue(prop);
       if (value && value !== 'auto') {
@@ -135,7 +140,7 @@ function runCleanViewer() {
         }
       }
     });
-
+    // xử lý font-size và line-height
     ['font-size', 'line-height'].forEach(prop => {
       const value = computedStyle.getPropertyValue(prop);
       if (value && value !== 'none' && value !== 'auto' && value !== 'normal') {
@@ -148,7 +153,7 @@ function runCleanViewer() {
         }
       }
     });
-
+    // xử lý transform-origin
     const transformOrigin = computedStyle.getPropertyValue('transform-origin');
     if (transformOrigin) {
       styleString += 'transform-origin: ' + transformOrigin + ' !important; ';
@@ -156,7 +161,7 @@ function runCleanViewer() {
     styleString += 'overflow: visible !important; max-width: none !important; max-height: none !important; clip: auto !important; clip-path: none !important; ';
     target.style.cssText += styleString;
   }
-
+  // deep clone element kèm theo style
   function deepCloneWithStyles(element, scale, heightScale) {
     const clone = element.cloneNode(false);
     const hasTextClass = element.classList && element.classList.contains('t');
@@ -184,16 +189,16 @@ function runCleanViewer() {
     }
     return clone;
   }
-
+  // tạo container cho bản in
   const fragment = document.createDocumentFragment();
   const viewerContainer = document.createElement('div');
   viewerContainer.id = 'clean-viewer-container';
 
+  // xử lý từng trang
   pages.forEach((page, index) => {
     const pc = page.querySelector('.pc');
     let width = 595.3;
     let height = 841.9;
-
     if (pc) {
       const pcStyle = window.getComputedStyle(pc);
       const pw = parseFloat(pcStyle.width);
@@ -209,14 +214,14 @@ function runCleanViewer() {
         }
       }
     }
-
+    // tạo page mới
     const newPage = document.createElement('div');
     newPage.className = 'std-page';
     newPage.id = 'page-' + (index + 1);
     newPage.setAttribute('data-page-number', index + 1);
     newPage.style.width = width + 'px';
     newPage.style.height = height + 'px';
-
+    // layer ảnh nền
     const originalImg = page.querySelector('img.bi') || page.querySelector('img');
     if (originalImg) {
       const bgLayer = document.createElement('div');
@@ -226,7 +231,7 @@ function runCleanViewer() {
       bgLayer.appendChild(imgClone);
       newPage.appendChild(bgLayer);
     }
-
+    // layer text
     const originalPc = page.querySelector('.pc');
     if (originalPc) {
       const textLayer = document.createElement('div');
@@ -238,11 +243,10 @@ function runCleanViewer() {
     }
     viewerContainer.appendChild(newPage);
   });
-
   fragment.appendChild(viewerContainer);
   document.body.appendChild(fragment);
-
+  // mở hộp thoại in sau 1 giây
   setTimeout(function() { window.print(); }, 1000);
 }
-
+// khởi tạo
 updateStatus('Sẵn sàng');

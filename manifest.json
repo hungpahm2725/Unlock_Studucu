@@ -2,6 +2,8 @@
   "manifest_version": 3,
   "name": "Studocu Cleaner",
   "version": "1.1",
+  "description": "Studocu Tool - Mở khóa tài liệu Studocu. Tác giả: HPahm",
+  "author": "HPahm",
   "permissions": [
     "cookies",
     "scripting",
