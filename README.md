@@ -13,7 +13,16 @@
 
 ---
 
-## Tải tool từ GitHub về máy
+---
+
+## Video hướng dẫn cài đặt và sử dụng
+
+Xem video hướng dẫn chi tiết từng bước tại đây:
+
+➡️ **[Xem video hướng dẫn](https://drive.google.com/file/d/1ZnkiOkylGSVlh_TasVI4U3hs1oqXot9d/view?usp=drivesdk)**
+
+
+## Tải tool từ GitHub về máy 
 
 ### Bước 1: Tải file
 
@@ -25,9 +34,9 @@ File ZIP sẽ được tải về máy, thường nằm trong thư mục **Downl
 
 ### Bước 2: Giải nén
 
-Vào thư mục Downloads, tìm file ZIP vừa tải về (có tên kiểu `Unlock_Studucu-main.zip`).
+Vào thư mục Downloads, tìm file ZIP vừa tải về (có tên kiểu `studocu-tool-main.zip`).
 
-Click chuột phải vào file ZIP, chọn **"Extract file"** (Giải nén file)
+Click chuột phải vào file ZIP, chọn **"Extract All..."** (Giải nén tất cả) hoặc **"Giải nén tại đây"**.
 
 Sau khi giải nén, một thư mục mới sẽ được tạo ra. Mở thư mục đó lên, bạn sẽ thấy bên trong có các file như `manifest.json`, `background.js`, `popup.html`...
 
@@ -105,7 +114,6 @@ Khi bạn muốn tải toàn bộ tài liệu về máy:
 7. Chọn nơi lưu file, đặt tên, click **Save** lần nữa
 
 ---
-
 ## Lỗi thường gặp
 
 | Lỗi | Cách sửa |
