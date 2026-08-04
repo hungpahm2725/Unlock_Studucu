@@ -13,8 +13,6 @@
 
 ---
 
----
-
 ## Video hướng dẫn cài đặt và sử dụng
 
 Xem video hướng dẫn chi tiết từng bước tại đây:
