@@ -92,9 +92,9 @@ Bấm **"Select Folder"** (Chọn thư mục).
 
 Khi bạn vào Studocu đọc tài liệu mà bị làm mờ, bị chặn, hết lượt xem:
 
-1. Click vào **icon Studocu Cleaner** trên thanh toolbar
+1. Click vào **icon Studocu Tool** trên thanh toolbar
 2. Một cửa sổ popup nhỏ hiện ra với 2 nút
-3. Click vào nút **"Bypass khóa & mờ"** (nút có viền)
+3. Click vào nút **"Bypass khóa & mờ"** (nút có nền trắng)
 4. Đợi 1-2 giây, trang web sẽ tự reload (tải lại)
 5. Sau khi reload, tài liệu không còn bị khóa nữa
 
